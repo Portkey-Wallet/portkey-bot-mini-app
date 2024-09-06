@@ -50,9 +50,9 @@ export default function AssetsPage() {
           originChainId={portkeyAAInfo?.portkeyInfo?.chainId}
           pin={portkeyAAInfo?.portkeyInfo?.pin}>
           <PortkeyDid.Asset
-            isShowRamp={false}
-            isShowRampBuy={false}
-            isShowRampSell={false}
+            isShowRamp={true}
+            isShowRampBuy={true}
+            isShowRampSell={true}
             // backIcon={<LeftOutlined />}
             // onOverviewBack={() => navigate("/")}
             onLifeCycleChange={(lifeCycle) => {

@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --experimental-https",
-    "build": "next build",
+    "dev:test": "NEXT_PUBLIC_APP_ENV=test next dev",
+    "dev:test-https": "NEXT_PUBLIC_APP_ENV=test NEXT_PUBLIC_PORT=3000 node server.js",
+    "dev:main": "NEXT_PUBLIC_APP_ENV=production next dev",
+    "dev:main-https": "NEXT_PUBLIC_APP_ENV=production NEXT_PUBLIC_PORT=3001 node server.js",
+    "build": "NEXT_PUBLIC_APP_ENV=production next build",
+    "build-test": "NEXT_PUBLIC_APP_ENV=test next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -24,11 +28,13 @@
     "react-dom": "^18"
   },
   "devDependencies": {
+    "@sentry/nextjs": "^8.28.0",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
     "eslint-config-next": "14.2.7",
+    "next-compose-plugins": "^2.2.1",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"

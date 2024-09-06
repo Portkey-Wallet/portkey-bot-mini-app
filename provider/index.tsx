@@ -17,7 +17,7 @@ const {
   PORTKEY_SERVER_URL,
   TELEGRAM_BOT_ID,
 } = loginConfig;
-
+console.log('loginConfig IS:', loginConfig);
 const didConfig: IConfigProps["didConfig"] = {
   graphQLUrl: GRAPHQL_SERVER,
   connectUrl: CONNECT_SERVER,
@@ -36,7 +36,7 @@ const didConfig: IConfigProps["didConfig"] = {
     projectCode: "xxx",
   },
 };
-
+console.log('Telegram botId is:', didConfig.socialLogin?.Telegram?.botId);
 const baseConfig: IConfigProps["baseConfig"] = {
   showVconsole: false,
   networkType: NETWORK_TYPE,

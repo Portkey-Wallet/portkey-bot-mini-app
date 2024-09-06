@@ -1,9 +1,11 @@
 "use client";
 import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
 import React, { useEffect } from "react";
-import { Button, Flex } from "antd";
+import { Button, Flex, Image, Typography } from "antd";
 import { WalletTypeEnum } from "@aelf-web-login/wallet-adapter-base";
 import AssetsPage from "../AssetsPage";
+import { TelegramPlatform } from "@portkey/did-ui-react";
+const { Text } = Typography;
 
 export default function HomeCom() {
   const {
@@ -35,12 +37,13 @@ export default function HomeCom() {
   };
 
   useEffect(() => {
+    console.log('TelegramPlatform.isTelegramPlatform()', TelegramPlatform.isTelegramPlatform());
     isLocking && connectWallet();
   }, [connectWallet, isConnected, isLocking]);
 
   return (
     <div>
-      <Flex gap={"small"}>
+      {/* <Flex gap={"small"}>
         <Button
           type="primary"
           onClick={onConnectBtnClickHandler}
@@ -59,11 +62,18 @@ export default function HomeCom() {
         >
           disconnect
         </Button>
-      </Flex>
+      </Flex> */}
+      {/* <div>{JSON.stringify(walletInfo)}</div> */}
 
-      <div>{JSON.stringify(walletInfo)}</div>
-
-      {walletType === WalletTypeEnum.aa && isConnected && <AssetsPage />}
+      {walletType === WalletTypeEnum.aa && isConnected ? <AssetsPage />:  <Flex
+        style={{
+          height: '100vh',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+    >
+        <Image src="./img/splashScreen.png" alt="Portkey Splash Screen"  preview={false}/>
+    </Flex>}
     </div>
   );
 }
