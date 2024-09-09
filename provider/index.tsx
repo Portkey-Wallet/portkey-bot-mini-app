@@ -35,10 +35,6 @@ const didConfig: IConfigProps["didConfig"] = {
     projectCode: "xxx",
   },
 };
-console.log('Telegram botId is:', didConfig.socialLogin?.Telegram?.botId);
-console.log('process.env NEXT_PUBLIC_NETWORK_TYPE is:', process.env.NEXT_PUBLIC_NETWORK_TYPE);
-console.log('process.env TELEGRAM_BOT_ID_TESTNET is:', process.env.NEXT_PUBLIC_TELEGRAM_BOT_ID_TESTNET);
-console.log('process.env TELEGRAM_BOT_ID_MAINNET is:', process.env.NEXT_PUBLIC_TELEGRAM_BOT_ID_MAINNET);
 const baseConfig: IConfigProps["baseConfig"] = {
   showVconsole: true,
   networkType: NETWORK_TYPE,
