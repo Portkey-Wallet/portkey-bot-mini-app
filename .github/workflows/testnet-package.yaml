@@ -37,9 +37,9 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            NEXT_PUBLIC_NETWORK_TYPE=test
-            TELEGRAM_BOT_ID_MAINNET: ${{ secrets.TELEGRAM_BOT_ID_MAINNET }} # mainnet
-            TELEGRAM_BOT_ID_TESTNET: ${{ secrets.TELEGRAM_BOT_ID_TESTNET }} # testnet
+            NEXT_PUBLIC_NETWORK_TYPE=testnet
+            TELEGRAM_BOT_ID_MAINNET=${{ secrets.TELEGRAM_BOT_ID_MAINNET }}
+            TELEGRAM_BOT_ID_TESTNET=${{ secrets.TELEGRAM_BOT_ID_TESTNET }}
   dispatch:
     runs-on: portkey-runner
     needs: build-and-push-image
