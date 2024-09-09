@@ -10,7 +10,7 @@
     "build-testnet": "NEXT_PUBLIC_NETWORK_TYPE=testnet next build",
     "build:testnet": "NEXT_PUBLIC_NETWORK_TYPE=testnet next build",
     "build:production": "NEXT_PUBLIC_NETWORK_TYPE=production next build",
-    "start:testnet": "NEXT_PUBLIC_NETWORK_TYPE=testnet start",
+    "start:testnet": "NEXT_PUBLIC_NETWORK_TYPE=testnet next start",
     "start:production": "NEXT_PUBLIC_NETWORK_TYPE=production next start",
     "lint": "next lint"
   },
