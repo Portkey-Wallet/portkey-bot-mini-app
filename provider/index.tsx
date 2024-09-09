@@ -58,15 +58,6 @@ const wallets = [
     autoShowUnlock: true,
     noNeedForConfirm: false,
   }),
-  new PortkeyDiscoverWallet({
-    networkType: NETWORK_TYPE,
-    chainId: CHAIN_ID,
-    autoRequestAccount: true,
-    autoLogoutOnDisconnected: true,
-    autoLogoutOnNetworkMismatch: true,
-    autoLogoutOnAccountMismatch: true,
-    autoLogoutOnChainMismatch: true,
-  }),
 ];
 
 const config: IConfigProps = {
