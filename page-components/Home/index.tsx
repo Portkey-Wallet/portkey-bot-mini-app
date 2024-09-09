@@ -38,7 +38,16 @@ export default function HomeCom() {
             alignItems: 'center',
           }}
       >
-          <Image src="./img/splashScreen.png" alt="Portkey Splash Screen"  preview={false}/>
+           <Image
+              src="./img/splashScreen.png"
+              alt="Portkey Splash Screen"
+              preview={false}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
+            />
       </Flex>}
       </div>
     </main>
