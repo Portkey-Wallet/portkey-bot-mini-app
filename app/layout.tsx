@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
        <head>
-        <Script src="https://telegram.org/js/telegram-web-app.js"></Script>
+        <Script strategy="afterInteractive" src="/telegram-web-app.js" />
       </head>
       <body className={inter.className}>
         <Provider>{children}</Provider>
