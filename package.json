@@ -3,13 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev:test": "NEXT_PUBLIC_APP_ENV=test next dev",
-    "dev:test-https": "NEXT_PUBLIC_APP_ENV=test NEXT_PUBLIC_PORT=3000 node server.js",
-    "dev:main": "NEXT_PUBLIC_APP_ENV=production next dev",
-    "dev:main-https": "NEXT_PUBLIC_APP_ENV=production NEXT_PUBLIC_PORT=3001 node server.js",
-    "build": "NEXT_PUBLIC_APP_ENV=production next build",
-    "build-test": "NEXT_PUBLIC_APP_ENV=test next build",
-    "start": "next start",
+    "dev:test": "NEXT_PUBLIC_NETWORK_TYPE=test next dev",
+    "dev:test-https": "NEXT_PUBLIC_NETWORK_TYPE=test NEXT_PUBLIC_PORT=3000 node server.js",
+    "dev:main": "NEXT_PUBLIC_NETWORK_TYPE=production next dev",
+    "dev:main-https": "NEXT_PUBLIC_NETWORK_TYPE=production NEXT_PUBLIC_PORT=3001 node server.js",
+    "build:testnet": "NEXT_PUBLIC_NETWORK_TYPE=test next build",
+    "build:production": "NEXT_PUBLIC_NETWORK_TYPE=production next build",
+    "build-test": "NEXT_PUBLIC_NETWORK_TYPE=test next build",
+    "start:testnet": "NEXT_PUBLIC_NETWORK_TYPE=test start",
+    "start:production": "NEXT_PUBLIC_NETWORK_TYPE=production next start",
     "lint": "next lint"
   },
   "dependencies": {

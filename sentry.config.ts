@@ -7,13 +7,13 @@ export const init = () =>
     // We recommend adjusting this value in production, or using tracesSampler
     // for finer control
     tracesSampleRate: 1.0,
-    environment: process.env.NEXT_PUBLIC_APP_ENV,
+    environment: process.env.NEXT_PUBLIC_NETWORK_TYPE,
     // ...
     // Note: if you want to override the automatic release value, do not set a
     // `release` value here - use the environment variable `SENTRY_RELEASE`, so
     // that it will also get attached to your source maps
     beforeSend(event) {
-      if (process.env.NEXT_PUBLIC_APP_ENV !== 'production') {
+      if (process.env.NEXT_PUBLIC_NETWORK_TYPE !== 'production') {
         return null;
       }
       return event;

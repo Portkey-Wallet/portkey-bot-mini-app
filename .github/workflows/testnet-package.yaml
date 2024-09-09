@@ -4,7 +4,7 @@ on:
     branches: ['dev']
 jobs:
   build-and-push-image:
-    runs-on: portkey-tgbot-app-runner
+    runs-on: portkey-runner
     permissions:
       contents: read
     outputs:
@@ -21,7 +21,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ secrets.REPOSITORY_REGION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.REPOSITORY }}/hamster-woods-interface # change this to your project frontend name
+          images: ${{ secrets.REPOSITORY_REGION }}-docker.pkg.dev/${{ secrets.PROJECT_ID }}/${{ secrets.REPOSITORY }}/portkey-bot-server # change this to your project frontend name
           tags: |
             type=sha
       - name: Set up Docker Buildx
@@ -37,9 +37,11 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            ENVIRONMENT=testnet
+            NEXT_PUBLIC_NETWORK_TYPE=test
+            TELEGRAM_BOT_ID_MAINNET: ${{ secrets.TELEGRAM_BOT_ID_MAINNET }} # mainnet
+            TELEGRAM_BOT_ID_TESTNET: ${{ secrets.TELEGRAM_BOT_ID_TESTNET }} # testnet
   dispatch:
-    runs-on: beangotown-runner
+    runs-on: portkey-runner
     needs: build-and-push-image
     steps:
       - name: Deploy
@@ -48,12 +50,12 @@ jobs:
           github-token: ${{ secrets.TOK }}
           script: |
             await github.rest.actions.createWorkflowDispatch({
-              owner: 'Beangotown',
+              owner: 'Portkey-Wallet',
               repo: 'devops',
               workflow_id: 'deployment_testnet.yaml',
               ref: 'main',
               inputs: {
-                appName: 'hamster-woods-interface',
+                appName: 'portkey-bot-server',
                 commit_sha: 'sha-${{ needs.build-and-push-image.outputs.short_sha }}',
               }
             })

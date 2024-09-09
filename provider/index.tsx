@@ -17,7 +17,6 @@ const {
   PORTKEY_SERVER_URL,
   TELEGRAM_BOT_ID,
 } = loginConfig;
-console.log('loginConfig IS:', loginConfig);
 const didConfig: IConfigProps["didConfig"] = {
   graphQLUrl: GRAPHQL_SERVER,
   connectUrl: CONNECT_SERVER,
