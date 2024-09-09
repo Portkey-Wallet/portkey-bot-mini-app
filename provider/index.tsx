@@ -36,6 +36,7 @@ const didConfig: IConfigProps["didConfig"] = {
   },
 };
 console.log('Telegram botId is:', didConfig.socialLogin?.Telegram?.botId);
+console.log('process.env is:', process.env);
 const baseConfig: IConfigProps["baseConfig"] = {
   showVconsole: false,
   networkType: NETWORK_TYPE,
