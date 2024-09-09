@@ -29,16 +29,18 @@ export default function HomeCom() {
   }, [isConnected, isLocking]);
 
   return (
-    <div>
-      {walletType === WalletTypeEnum.aa && isConnected ? <AssetsPage />:  <Flex
-        style={{
-          height: '100vh',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-    >
-        <Image src="./img/splashScreen.png" alt="Portkey Splash Screen"  preview={false}/>
-    </Flex>}
-    </div>
+    <main>
+      <div>
+        {walletType === WalletTypeEnum.aa && isConnected ? <AssetsPage />:  <Flex
+          style={{
+            height: '100vh',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+      >
+          <Image src="./img/splashScreen.png" alt="Portkey Splash Screen"  preview={false}/>
+      </Flex>}
+      </div>
+    </main>
   );
 }
