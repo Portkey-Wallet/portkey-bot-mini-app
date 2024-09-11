@@ -7,7 +7,7 @@ import AssetsPage from "../AssetsPage";
 import { TelegramPlatform } from "@portkey/did-ui-react";
 const { Text } = Typography;
 
-export default function HomeCom() {
+export default function Home() {
   const {
     connectWallet,
     disConnectWallet,
@@ -33,9 +33,11 @@ export default function HomeCom() {
       <div>
         {walletType === WalletTypeEnum.aa && isConnected ? <AssetsPage />:  <Flex
           style={{
+            width: '100vw',
             height: '100vh',
             justifyContent: 'center',
             alignItems: 'center',
+            backgroundColor: '#531DDC',
           }}
       >
            <Image
@@ -43,8 +45,8 @@ export default function HomeCom() {
               alt="Portkey Splash Screen"
               preview={false}
               style={{
-                width: '100%',
-                height: '100%',
+                width: '100vw',
+                height: '100vh',
                 objectFit: 'cover',
               }}
             />
