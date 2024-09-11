@@ -44,6 +44,7 @@ export default function HomeCom() {
               <Flex
                 style={{
                   height: '100vh',
+                  width: '100vw',
                   justifyContent: 'center',
                   alignItems: 'center',
                   backgroundColor: '#531DDC',
@@ -54,8 +55,8 @@ export default function HomeCom() {
                   alt="Portkey Splash Screen"
                   preview={false}
                   style={{
-                    width: '100%',
-                    height: '100%',
+                    height: '100vh',
+                    width: '100vw',
                     objectFit: 'cover',
                   }}
                 />

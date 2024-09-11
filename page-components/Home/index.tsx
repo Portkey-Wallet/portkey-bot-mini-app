@@ -33,10 +33,11 @@ export default function HomeCom() {
       <div>
         {walletType === WalletTypeEnum.aa && isConnected ? <AssetsPage />:  <Flex
           style={{
+            width: '100vw',
             height: '100vh',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: 'red',
+            backgroundColor: '#531DDC',
           }}
       >
            <Image
@@ -44,8 +45,8 @@ export default function HomeCom() {
               alt="Portkey Splash Screen"
               preview={false}
               style={{
-                width: '100%',
-                height: '100%',
+                width: '100vw',
+                height: '100vh',
                 objectFit: 'cover',
               }}
             />
