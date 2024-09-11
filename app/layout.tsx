@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import WebLoginConfigProvider from "@/provider";
+import { useMemo } from "react";
+import dynamic from "next/dynamic";
+import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,10 +17,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const Provider = useMemo(() => {
+    return dynamic(() => import('@/provider'), { ssr: false });
+  }, []);
   return (
     <html lang="en">
+       <head>
+        <Script strategy="beforeInteractive" src="/telegram-web-app.js" />
+      </head>
       <body className={inter.className}>
-        <WebLoginConfigProvider>{children}</WebLoginConfigProvider>
+        <Provider>{children}</Provider>
       </body>
     </html>
   );

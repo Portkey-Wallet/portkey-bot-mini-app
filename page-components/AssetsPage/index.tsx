@@ -20,7 +20,11 @@ export type TAelfAccounts = {
 
 export default function AssetsPage() {
   const { walletType, walletInfo } = useConnectWallet();
-
+  console.log('walletInfo is', walletInfo);
+  const loginType = walletInfo?.extraInfo?.portkeyInfo.createType;
+  useEffect(() => {
+    
+  }, [loginType]);
   const portkeyAAInfo = useMemo(() => {
     return walletInfo?.extraInfo as ExtraInfoForPortkeyAA;
   }, [walletInfo?.extraInfo]);

@@ -23,57 +23,33 @@ export default function HomeCom() {
   console.log(walletType === WalletTypeEnum.aa, isConnected, "showAssets===");
   console.log(isConnected, isLocking, "isLocking===");
 
-  const onConnectBtnClickHandler = async () => {
-    try {
-      const rs = await connectWallet();
-      console.log("rs", rs);
-    } catch (e: any) {
-      // message.error(e.message);
-    }
-  };
-
-  const onDisConnectBtnClickHandler = () => {
-    disConnectWallet();
-  };
-
   useEffect(() => {
+    console.log('window?.Telegram', window?.Telegram);
     console.log('TelegramPlatform.isTelegramPlatform()', TelegramPlatform.isTelegramPlatform());
-    isLocking && connectWallet();
-  }, [connectWallet, isConnected, isLocking]);
+  }, [isConnected, isLocking]);
 
   return (
-    <div>
-      {/* <Flex gap={"small"}>
-        <Button
-          type="primary"
-          onClick={onConnectBtnClickHandler}
-          disabled={isConnected}>
-          {isLocking ? "unlock" : "connect"}
-        </Button>
-        <div></div>
-        <Button type="primary" onClick={lock} disabled={!walletInfo}>
-          lock
-        </Button>
-        <div></div>
-        <Button
-          type="primary"
-          onClick={onDisConnectBtnClickHandler}
-          // disabled={isConnected}
-        >
-          disconnect
-        </Button>
-      </Flex> */}
-      {/* <div>{JSON.stringify(walletInfo)}</div> */}
-
-      {walletType === WalletTypeEnum.aa && isConnected ? <AssetsPage />:  <Flex
-        style={{
-          height: '100vh',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-    >
-        <Image src="./img/splashScreen.png" alt="Portkey Splash Screen"  preview={false}/>
-    </Flex>}
-    </div>
+    <main>
+      <div>
+        {walletType === WalletTypeEnum.aa && isConnected ? <AssetsPage />:  <Flex
+          style={{
+            height: '100vh',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+      >
+           <Image
+              src="./img/splashScreen.png"
+              alt="Portkey Splash Screen"
+              preview={false}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
+            />
+      </Flex>}
+      </div>
+    </main>
   );
 }

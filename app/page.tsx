@@ -1,9 +1,4 @@
-import HomeCom from "@/page-components/Home";
 
-export default function Home() {
-  return (
-    <main>
-      <HomeCom />
-    </main>
-  );
-}
+'use client';
+import dynamic from 'next/dynamic';
+export default dynamic(() => import('@/page-components/Home'), { ssr: false });

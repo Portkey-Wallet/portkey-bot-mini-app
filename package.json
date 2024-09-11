@@ -25,6 +25,7 @@
     "@portkey/did-ui-react": "^2.9.6-alpha.5",
     "aelf-sdk": "^3.4.15",
     "antd": "^5.20.5",
+    "axios": "^1.7.7",
     "next": "14.2.7",
     "react": "^18",
     "react-dom": "^18"
