@@ -36,7 +36,7 @@ export default function HomeCom() {
             height: '100vh',
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: '#531DDC',
+            backgroundColor: 'red',
           }}
       >
            <Image
