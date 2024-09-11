@@ -1,8 +1,9 @@
 "use client";
-import "./globals.css";
+// import "./globals.css";
 import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { Flex, Image } from "antd";
+import Home from "../Home";
 
 
 function loadScript(url: string): Promise<void> {
@@ -15,7 +16,7 @@ function loadScript(url: string): Promise<void> {
   });
 }
 
-export default function HomeCom() {
+export default function Splash() {
   const [loadTgJs, setLoadTgJs] = useState<boolean>(false);
   const Provider = useMemo(() => {
     return dynamic(() => import('@/provider'), { ssr: false });
@@ -36,7 +37,7 @@ export default function HomeCom() {
     <>
      {loadTgJs ? (
           <Provider>
-            <HomeCom/>
+            <Home/>
           </Provider>
         ) : (
           <main>

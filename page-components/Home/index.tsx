@@ -7,7 +7,7 @@ import AssetsPage from "../AssetsPage";
 import { TelegramPlatform } from "@portkey/did-ui-react";
 const { Text } = Typography;
 
-export default function HomeCom() {
+export default function Home() {
   const {
     connectWallet,
     disConnectWallet,

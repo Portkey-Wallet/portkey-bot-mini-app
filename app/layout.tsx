@@ -25,8 +25,8 @@ export default function RootLayout({
        <head>
         <Script strategy="beforeInteractive" src="/telegram-web-app.js" />
       </head>
-      <body className={inter.className} style={{ backgroundColor: '#531DDC'}}>
-        <Provider>{children}</Provider>
+      <body className={inter.className}>
+        {children}
       </body>
     </html>
   );
