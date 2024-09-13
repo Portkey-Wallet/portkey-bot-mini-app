@@ -1,114 +1,23 @@
 import axios from 'axios';
 
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { SentryMessageType, captureMessage } from '../utils/captureMessage';
-// import showMessage from '../utils/setGlobalComponentsInfo';
-
-interface ResponseType<T> {
-  code: string;
-  message: string;
-  data: T;
-}
-
+import { ChainId } from '@portkey/types';
+import { stringify } from 'querystring';
+import { DIDWalletInfo } from '@portkey/did-ui-react';
+import AElf from 'aelf-sdk';
+import loginConfig from '@/constants/config/login.config';
+const BEARER = 'Bearer';
+const DAY = 24 * 60 * 60 * 1000;
+const {
+  PORTKEY_SERVER_URL,
+  CONNECT_SERVER,
+} = loginConfig
 class Request {
   instance: AxiosInstance;
-  baseConfig: AxiosRequestConfig = { baseURL: '/api', timeout: 60000 };
+  baseConfig: AxiosRequestConfig = { baseURL: `${PORTKEY_SERVER_URL}/api`, timeout: 60000 };
 
   constructor(config: AxiosRequestConfig) {
     this.instance = axios.create(Object.assign({}, this.baseConfig, config));
-
-    this.instance.interceptors.request.use(
-      (config: AxiosRequestConfig) => {
-        return config;
-      },
-      (error) => {
-        console.error(`something were wrong when fetch ${config?.url}`, error);
-        return Promise.reject(error);
-      },
-    );
-
-    this.instance.interceptors.response.use(
-      <T>(response: AxiosResponse<ResponseType<T>>) => {
-        const res = response.data;
-        const { code, data, message: errorMessage } = response.data;
-        if (config.baseURL?.includes('cms')) {
-          return data;
-        }
-        if (config.baseURL?.includes('connect')) {
-          return res;
-        }
-
-        if (code[0] !== '2') {
-          captureMessage({
-            type: SentryMessageType.HTTP,
-            params: {
-              name: config.url!,
-              method: config.method!,
-              query: config.data,
-              description: response,
-            },
-          });
-        }
-
-        switch (code) {
-          case '20000':
-            return data;
-          case '20001':
-            return {};
-          case '20002':
-            return res;
-          case '50000':
-            // showMessage.error(errorMessage);
-            return null;
-          default:
-            // showMessage.error(errorMessage);
-            return res;
-        }
-      },
-      (error) => {
-        let errMessage = '';
-        switch (error?.response?.status) {
-          case 400:
-            errMessage = 'Please check your internet connection and try again.';
-            break;
-
-          case 401:
-            // showMessage.error('Please check your internet connection and try again.');
-            setTimeout(() => {
-              location.pathname = '/login';
-            }, 3000);
-            break;
-
-          case 404:
-            errMessage = 'Please check your internet connection and try again.';
-            break;
-
-          case 500:
-          case 501:
-          case 502:
-          case 503:
-          case 504:
-            errMessage = 'Please check your internet connection and try again.';
-            break;
-
-          default:
-            errMessage = 'Please check your internet connection and try again.';
-            break;
-        }
-
-        // showMessage.error(errMessage);
-        captureMessage({
-          type: SentryMessageType.HTTP,
-          params: {
-            name: config.url!,
-            method: config.method!,
-            query: config.data,
-            description: error,
-          },
-        });
-        return Promise.reject(errMessage);
-      },
-    );
   }
 
   public async request(config: AxiosRequestConfig): Promise<AxiosResponse> {
@@ -130,12 +39,58 @@ class Request {
   public delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     return this.instance.delete(url, config);
   }
+  public queryAuthorization = async (config: RefreshTokenConfig) => {
+    const { ..._config } = config;
+    const connectInstance = axios.create(Object.assign({}, { baseURL: `${CONNECT_SERVER}/connect/`, timeout: 60000 }, {}));
+    const result = await connectInstance.post<{access_token: string}>('/token', stringify({ ..._config, chain_id: config.chainId }), {
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    });
+    console.log('queryAuthorization result is:', result);
+    return `${BEARER} ${result.data?.access_token}`;
+  };
+  private isValidRefreshTokenConfig = (config: RefreshTokenConfig) => {
+    const expireTime = config.timestamp + 1 * DAY;
+    return expireTime >= Date.now();
+  };
+  private getConnectToken = async (refreshTokenConfig?: RefreshTokenConfig) => {
+    try {
+      if (!refreshTokenConfig || !this.isValidRefreshTokenConfig(refreshTokenConfig)) return;
+      const authorization = await request.queryAuthorization(refreshTokenConfig);
+      request.instance.defaults.headers.common['Authorization'] = authorization;
+      return authorization;
+    } catch (error) {
+      console.log(error, '====error-getConnectToken');
+      return;
+    }
+  };
+  public getAAConnectToken = async (didWallet: DIDWalletInfo) => {
+    const timestamp = Date.now();
+      const message = Buffer.from(`${didWallet.walletInfo.address}-${timestamp}`).toString('hex');
+      const signature = AElf.wallet.sign(message, didWallet.walletInfo.keyPair).toString('hex');
+      const pubKey = (didWallet.walletInfo.keyPair as any).getPublic('hex');
+     return await this.getConnectToken({
+        grant_type: 'signature',
+        client_id: 'CAServer_App',
+        scope: 'CAServer',
+        signature: signature || '',
+        pubkey: pubKey|| '',
+        timestamp: timestamp || 0,
+        ca_hash: didWallet.caInfo.caHash,
+        chainId: didWallet.chainId,
+      });
+  }
 }
+export type RefreshTokenConfig = {
+  grant_type: 'signature';
+  client_id: 'CAServer_App';
+  scope: 'CAServer';
+  signature: string;
+  pubkey: string;
+  timestamp: number;
+  ca_hash: string;
+  chainId: ChainId;
+};
 
-const cmsRequest = new Request({ baseURL: '/cms' });
-// const tokenRequest = new Request({
-//   baseURL: '/connect',
-// });
 
-export default new Request({});
-export { cmsRequest };
+const request = new Request({});
+export default request;

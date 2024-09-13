@@ -1,10 +1,12 @@
 "use client";
 import { useConnectWallet } from "@aelf-web-login/wallet-adapter-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Button, Flex, Image, Typography } from "antd";
 import { WalletTypeEnum } from "@aelf-web-login/wallet-adapter-base";
 import AssetsPage from "../AssetsPage";
 import { TelegramPlatform } from "@portkey/did-ui-react";
+import { reportAccount } from "@/api/request";
+import request from "@/api/axios";
 const { Text } = Typography;
 
 export default function Home() {
@@ -18,15 +20,32 @@ export default function Home() {
     isConnected,
     loginError,
   } = useConnectWallet();
-
+  const reported = useRef<boolean>(false);
+  const loading = useRef<boolean>(false);
   console.log(walletInfo, isConnected, "walletInfo===");
   console.log(walletType === WalletTypeEnum.aa, isConnected, "showAssets===");
   console.log(isConnected, isLocking, "isLocking===");
 
   useEffect(() => {
-    console.log('window?.Telegram', window?.Telegram);
-    console.log('TelegramPlatform.isTelegramPlatform()', TelegramPlatform.isTelegramPlatform());
-  }, [isConnected, isLocking]);
+    (async () => {
+      if(loading.current){
+        return;
+      }
+      if(isConnected && !reported.current) {
+       try {
+        loading.current = true;
+        await request.getAAConnectToken(walletInfo?.extraInfo?.portkeyInfo);
+        const caHash = walletInfo?.extraInfo?.portkeyInfo?.caInfo?.caHash;
+        const operationType = walletInfo?.extraInfo?.portkeyInfo?.createType === 'recovery' ? 'SocialRecovery': 'Register';
+        await reportAccount({caHash, operationType});
+        reported.current = true;
+       } finally {
+        loading.current = false;
+
+       }
+      }
+    })();
+  }, [isConnected, isLocking, walletInfo?.extraInfo?.portkeyInfo, walletInfo?.extraInfo?.portkeyInfo?.caInfo?.caHash, walletInfo?.extraInfo?.portkeyInfo?.createType]);
 
   return (
     <main>
